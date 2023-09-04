@@ -30,7 +30,8 @@ def index(request):
                 completion_date=datetime.datetime.now())
     else:
         # mit leeren Listen starten
-        ToDoEntry.objects.all().delete()
+        # ToDoEntry.objects.all().delete()
+        ToDoEntry.objects.all()
         # oder todo_entries = {} fuer eine nicht-persistente Lsg
             
     context = {}
