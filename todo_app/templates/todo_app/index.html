@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Meine Todos</title>
+        <style>
+            input[type=submit] {
+                background-color: #F0F0F0;
+            }
+            input {
+                border: 1px solid grey;
+                border-radius: 3px;
+            }
+            ul {
+                list-style-position: inside;
+                padding: 0px;
+            }
+            span {
+                position: relative;
+                left: 10px;  
+            }
+        </style>
+	</head>
+    <body>
+        <h1>Meine Todos</h1>
+        
+        <h2>Neues Todo anlegen</h2>
+        <form action="/todo_app/" method="post">
+            {% csrf_token %}
+            <label for="new_todo"> Text:</label>
+            <input type="text" name="new_todo" id="new_todo">
+            <br><br>
+            <input type="submit" value="Neues Todo erstellen" />
+        </form>
+
+        <div>
+            <h2>Offene Todos</h2>
+            {% if open_todos %}
+                <form method='post'>
+                    {% csrf_token %}
+                    <ul>
+                        
+                        {% for item in open_todos %}
+                            <li><span><input type="radio" id="{{item.id}}" name="completed_todo" value="{{item.id}}"> {{ item.text }}</span></li>
+                        {% endfor %}
+                    </ul>
+                    <br>
+                    <input type="submit" value="Todo erledigt">
+                </form>
+            {% else %}
+                ... no open Todos here.
+            {% endif %}
+        </div>
+
+        <div>
+            <h2>Erledigte Todos</h2>
+        {% if completed_todos %}
+            <ul>
+                {% for item in completed_todos %}
+                    <li>{{ item.text }} erledigt am {{ item.completion_date | date:"d.m.Y, H:i:s" }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        </div>
+    </body>
+</html>
